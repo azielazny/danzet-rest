@@ -57,5 +57,5 @@ fabric.properties
 # Sonarlint plugin
 .idea/sonarlint
 vendor/
-log/*
+logs/*
 cache/*
