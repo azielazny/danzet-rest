@@ -7,7 +7,7 @@
  */
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
-
+$config['determineRouteBeforeAppMiddleware'] = true;
 define("SECRET", "secret");
 
 $config = [
