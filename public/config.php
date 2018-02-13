@@ -7,9 +7,8 @@
  */
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
-$config['secretKey'] = "secret";
 
-//define("SECRET", "secret");
+define("SECRET", "secret");
 
 $config = [
     'db' => [
