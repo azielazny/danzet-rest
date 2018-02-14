@@ -138,10 +138,10 @@ $app->group('/cars', function () {
             $result = $pre->execute($values);
             if ($result) {
                 $this->logger->info('Update Car data in Cars table', ['car_id' => $car_id]);
-                return $response->withJson(array('status' => 'User Updated'), 200);
+                return $response->withJson(array('status' => 'Car Updated'), 200);
             } else {
                 $this->logger->info('Not found Exception for update Car data in Cars table', ['car_id' => $car_id]);
-                return $response->withJson(array('status' => 'User Not Found'), 422);
+                return $response->withJson(array('status' => 'Car Not Found'), 422);
             }
 
         } catch (\Exception $ex) {

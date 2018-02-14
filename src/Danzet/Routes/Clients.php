@@ -24,8 +24,8 @@ $app->group('/clients', function () {
                 $this->logger->debug('Clients list ', ['success']);
                 return $response->withJson(array('status' => 'true', 'result' => $result), 200);
             } else {
-                $this->logger->info('Clients list ', ['status' => 'Client not Found']);
-                return $response->withJson(array('status' => 'Client not Found'), 422);
+                $this->logger->info('Clients list ', ['status' => 'Client Not Found']);
+                return $response->withJson(array('status' => 'Client Not Found'), 422);
             }
         } catch (\Exception $ex) {
             $this->logger->warning('Clients list ', ['error' => $ex->getMessage()]);
@@ -38,9 +38,9 @@ $app->group('/clients', function () {
 
         try {
             $con = $this->db;
-            $sql = "INSERT INTO `clients`(firstname, lastname, zip, city, street, house_number, apartament_number, phone, 
+            $sql = "INSERT INTO `clients`(firstname, lastname, zip, city, street, house_number, apartment_number, phone, 
                     email, company, nip, `modification_date`) VALUES (:firstname, :lastname, :zip, :city, :street, 
-                    :house_number, :apartament_number, :phone, :email, :company, :nip, :modification_date)";
+                    :house_number, :apartment_number, :phone, :email, :company, :nip, :modification_date)";
             $pre = $con->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
             $values = array(
                 ':firstname' => $request->getParam('firstname'),
@@ -49,7 +49,7 @@ $app->group('/clients', function () {
                 ':city' => $request->getParam('city'),
                 ':street' => $request->getParam('street'),
                 ':house_number' => $request->getParam('house_number'),
-                ':apartament_number' => $request->getParam('apartament_number'),
+                ':apartment_number' => $request->getParam('apartment_number'),
                 ':phone' => $request->getParam('phone'),
                 ':email' => $request->getParam('email'),
                 ':company' => $request->getParam('company'),
@@ -100,7 +100,7 @@ $app->group('/clients', function () {
             $client_id = $request->getAttribute('client_id');
             $con = $this->db;
             $sql = "UPDATE clients SET firstname=:firstname, lastname=:lastname, zip=:zip, city=:city, street=:street, 
-                    house_number=:house_number, apartament_number=:apartament_number, phone=:phone, email=:email, 
+                    house_number=:house_number, apartment_number=:apartment_number, phone=:phone, email=:email, 
                     company=:company, nip=:nip, modification_date=:modification_date WHERE client_id = :client_id";
             $pre = $con->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
             $values = array(
@@ -110,7 +110,7 @@ $app->group('/clients', function () {
                 ':city' => $request->getParam('city'),
                 ':street' => $request->getParam('street'),
                 ':house_number' => $request->getParam('house_number'),
-                ':apartament_number' => $request->getParam('apartament_number'),
+                ':apartment_number' => $request->getParam('apartment_number'),
                 ':phone' => $request->getParam('phone'),
                 ':email' => $request->getParam('email'),
                 ':company' => $request->getParam('company'),
@@ -121,11 +121,11 @@ $app->group('/clients', function () {
             $result = $pre->execute($values);
             if ($result) {
                 $this->logger->info('Update Client data in Cars table', ['client_id' => $client_id]);
-                return $response->withJson(array('status' => 'User Updated'), 200);
+                return $response->withJson(array('status' => 'Client Updated'), 200);
             } else {
                 $this->logger->info('Not found Exception for update Client data in Cars table',
                     ['client_id' => $client_id]);
-                return $response->withJson(array('status' => 'User Not Found'), 422);
+                return $response->withJson(array('status' => 'Client Not Found'), 422);
             }
 
         } catch (\Exception $ex) {
@@ -151,7 +151,7 @@ $app->group('/clients', function () {
             } else {
                 $this->logger->info('Not found ecxeption for car delete from Clients table',
                     ['client_id' => $client_id]);
-                return $response->withJson(array('status' => 'Client not Found'), 422);
+                return $response->withJson(array('status' => 'Client Not Found'), 422);
             }
 
         } catch (\Exception $ex) {
