@@ -34,8 +34,7 @@ $app->group('/cars', function () {
         }
 
     });
-//});
-//$app->group('/car', function () {
+
     $this->post('', function (Request $request, Response $response) {
 
         try {
@@ -102,7 +101,34 @@ $app->group('/cars', function () {
             $this->logger->warning('Read car data from Cars table. ', ['error' => $ex->getMessage()]);
             return $response->withJson(array('error' => $ex->getMessage()), 422);
         }
+    });
 
+    $this->get('/client/{client_id:[0-9]+}', function (Request $request, Response $response) {
+        try {
+            $client_id = $request->getAttribute('client_id');
+            $con = $this->db;
+            $sql = "SELECT * FROM cars WHERE client_id = :client_id";
+            $pre = $con->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+            $values = array(
+                ':client_id' => $client_id
+            );
+            $pre->execute($values);
+            $result = null;
+            foreach ($pre->fetchAll(PDO::FETCH_ASSOC) as $key=>$value) {
+                $result[$key] = $value;
+            }
+
+            if ($result) {
+                $this->logger->info('Read car list by client id to ', ['id' => $client_id]);
+                return $response->withJson(array('status' => 'true', 'result' => $result), 200);
+            } else {
+                $this->logger->info('Not found database exception to car list by client id', ['id' => $client_id]);
+                return $response->withJson(array('status' => 'Car Not Found'), 422);
+            }
+        } catch (\Exception $ex) {
+            $this->logger->warning('Read car list by client id from Cars table. ', ['error' => $ex->getMessage()]);
+            return $response->withJson(array('error' => $ex->getMessage()), 422);
+        }
     });
 
 

@@ -160,4 +160,34 @@ $app->group('/clients', function () {
         }
 
     });
+
+    $this->get('/search/{phrase}', function (Request $request, Response $response) {
+        try {
+            $phrase = "%".$request->getAttribute('phrase')."%";
+            $con = $this->db;
+            $sql = "SELECT * FROM clients WHERE lastname LIKE :client_id OR phone LIKE :phone OR email LIKE :email";
+            $pre = $con->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+            $values = array(
+                ':client_id' => $phrase,
+                ':phone' => $phrase,
+                ':email' => $phrase
+            );
+            $pre->execute($values);
+            $result = null;
+            foreach ($pre->fetchAll(PDO::FETCH_ASSOC) as $key=>$value) {
+                $result[$key] = $value;
+            }
+
+            if ($result) {
+                $this->logger->info('Search client by phrase ', ['phrase' => $phrase]);
+                return $response->withJson(array('status' => 'true', 'result' => $result), 200);
+            } else {
+                $this->logger->info('Not found client by phrase', ['id' => $phrase]);
+                return $response->withJson(array('status' => 'Client Not Found', 'result' =>[]), 200);
+            }
+        } catch (\Exception $ex) {
+            $this->logger->warning('Search client by phrase ', ['error' => $ex->getMessage()]);
+            return $response->withJson(array('error' => $ex->getMessage()), 422);
+        }
+    });
 });
