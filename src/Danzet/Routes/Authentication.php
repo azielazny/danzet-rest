@@ -20,7 +20,8 @@ $app->add(function ($req, $res, $next) {
     return $response
         ->withHeader('Access-Control-Allow-Origin', 'http://localhost:4200')
         ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
-        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+        ->withHeader('Access-Control-Allow-Credentials', 'true');
 });
 $app->add(new JwtAuthentication([
     "secret" => SECRET,

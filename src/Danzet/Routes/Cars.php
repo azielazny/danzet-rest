@@ -34,8 +34,8 @@ $app->group('/cars', function () {
         }
 
     });
-});
-$app->group('/car', function () {
+//});
+//$app->group('/car', function () {
     $this->post('', function (Request $request, Response $response) {
 
         try {
@@ -51,28 +51,30 @@ $app->group('/car', function () {
                 ':car_id' => $request->getParam('car_id'),
                 ':brand' => $request->getParam('brand'),
                 ':model' => $request->getParam('model'),
-                ':production_year' => $request->getParam('productionYear'),
+                ':production_year' => $request->getParam('production_year'),
                 ':vin' => $request->getParam('vin'),
-                ':registration_number' => $request->getParam('registrationNumber'),
-                ':registration_date' => $request->getParam('registrationDate'),
-                ':car_version' => $request->getParam('carVersion'),
+                ':registration_number' => $request->getParam('registration_number'),
+                ':registration_date' => $request->getParam('registration_date'),
+                ':car_version' => $request->getParam('car_version'),
                 ':capacity' => $request->getParam('capacity'),
-                ':engine_power' => $request->getParam('enginePower'),
+                ':engine_power' => $request->getParam('engine_power'),
                 ':fuel' => $request->getParam('fuel'),
-                ':dr_series' => $request->getParam('drSeries'),
+                ':dr_series' => $request->getParam('dr_series'),
                 ':course' => $request->getParam('course'),
-                ':date_added' => $request->getParam('dateAdded'),
+                ':date_added' => $request->getParam('date_added'),
                 ':info' => $request->getParam('info'),
                 ':client_id' => $request->getParam('client_id'),
                 ':modification_date' => date('Y-m-d H:i:s', time())
 //                'password' => password_hash($request->getParam('password'), PASSWORD_DEFAULT)
             );
             $result = $pre->execute($values);
+            $lastId = $con->lastInsertId();
             $this->logger->warning('Car added ', ['success']);
-            return $response->withJson(array('status' => 'User Created'), 200);
+
+            return $response->withJson(array('status' => 'Car Created', 'id' => $lastId), 200);
 
         } catch (\Exception $ex) {
-            $this->logger->warning('Cars list ', ['error' => $ex->getMessage()]);
+            $this->logger->warning('Cars not added exception', ['error' => $ex->getMessage()]);
             return $response->withJson(array('error' => $ex->getMessage()), 422);
         }
 
@@ -117,17 +119,17 @@ $app->group('/car', function () {
             $values = array(
                 ':brand' => $request->getParam('brand'),
                 ':model' => $request->getParam('model'),
-                ':production_year' => $request->getParam('productionYear'),
+                ':production_year' => $request->getParam('production_year'),
                 ':vin' => $request->getParam('vin'),
-                ':registration_number' => $request->getParam('registrationNumber'),
-                ':registration_date' => $request->getParam('registrationDate'),
-                ':car_version' => $request->getParam('carVersion'),
+                ':registration_number' => $request->getParam('registration_number'),
+                ':registration_date' => $request->getParam('registration_date'),
+                ':car_version' => $request->getParam('car_version'),
                 ':capacity' => $request->getParam('capacity'),
-                ':engine_power' => $request->getParam('enginePower'),
+                ':engine_power' => $request->getParam('engine_power'),
                 ':fuel' => $request->getParam('fuel'),
-                ':dr_series' => $request->getParam('drSeries'),
+                ':dr_series' => $request->getParam('dr_series'),
                 ':course' => $request->getParam('course'),
-                ':date_added' => $request->getParam('dateAdded'),
+                ':date_added' => $request->getParam('date_added'),
                 ':info' => $request->getParam('info'),
                 ':client_id' => $request->getParam('client_id'),
                 ':modification_date' => date('Y-m-d H:i:s', time()),
@@ -160,7 +162,7 @@ $app->group('/car', function () {
             );
             $result = $pre->execute($values);
             if ($result) {
-                $this->logger->info('Car delete from Cars table', ['car_id' => $car_id]);
+                $this->logger->info('Car deleted', ['car_id' => $car_id]);
                 return $response->withJson(array('status' => 'Car Deleted'), 200);
             } else {
                 $this->logger->info('Not found ecxeption for car delete from Cars table', ['car_id' => $car_id]);
