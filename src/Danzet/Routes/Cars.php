@@ -26,7 +26,7 @@ $app->group('/cars', function () {
                 return $response->withJson(array('status' => 'true', 'result' => $result), 200);
             } else {
                 $this->logger->info('Cars list ', ['status' => 'Cars Not Found']);
-                return $response->withJson(array('status' => 'Cars Not Found'), 422);
+                return $response->withJson(array('status' => 'Cars Not Found'), 200);
             }
         } catch (\Exception $ex) {
             $this->logger->warning('Cars list ', ['error' => $ex->getMessage()]);
@@ -95,7 +95,7 @@ $app->group('/cars', function () {
                 return $response->withJson(array('status' => 'true', 'result' => $result), 200);
             } else {
                 $this->logger->info('Not found database exception to car id', ['id' => $car_id]);
-                return $response->withJson(array('status' => 'Car Not Found'), 422);
+                return $response->withJson(array('status' => 'Car Not Found'), 200);
             }
         } catch (\Exception $ex) {
             $this->logger->warning('Read car data from Cars table. ', ['error' => $ex->getMessage()]);
@@ -123,7 +123,7 @@ $app->group('/cars', function () {
                 return $response->withJson(array('status' => 'true', 'result' => $result), 200);
             } else {
                 $this->logger->info('Not found database exception to car list by client id', ['id' => $client_id]);
-                return $response->withJson(array('status' => 'Car Not Found'), 422);
+                return $response->withJson(array('status' => 'Car Not Found'), 200);
             }
         } catch (\Exception $ex) {
             $this->logger->warning('Read car list by client id from Cars table. ', ['error' => $ex->getMessage()]);
@@ -167,7 +167,7 @@ $app->group('/cars', function () {
                 return $response->withJson(array('status' => 'Car Updated'), 200);
             } else {
                 $this->logger->info('Not found Exception for update Car data in Cars table', ['car_id' => $car_id]);
-                return $response->withJson(array('status' => 'Car Not Found'), 422);
+                return $response->withJson(array('status' => 'Car Not Found'), 200);
             }
 
         } catch (\Exception $ex) {
@@ -192,7 +192,7 @@ $app->group('/cars', function () {
                 return $response->withJson(array('status' => 'Car Deleted'), 200);
             } else {
                 $this->logger->info('Not found ecxeption for car delete from Cars table', ['car_id' => $car_id]);
-                return $response->withJson(array('status' => 'Car Not Found'), 422);
+                return $response->withJson(array('status' => 'Car Not Found'), 200);
             }
 
         } catch (\Exception $ex) {

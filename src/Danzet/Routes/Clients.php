@@ -25,7 +25,7 @@ $app->group('/clients', function () {
                 return $response->withJson(array('status' => 'true', 'result' => $result), 200);
             } else {
                 $this->logger->info('Clients list ', ['status' => 'Client Not Found']);
-                return $response->withJson(array('status' => 'Client Not Found'), 422);
+                return $response->withJson(array('status' => 'Client Not Found'), 200);
             }
         } catch (\Exception $ex) {
             $this->logger->warning('Clients list ', ['error' => $ex->getMessage()]);
@@ -85,7 +85,7 @@ $app->group('/clients', function () {
                 return $response->withJson(array('status' => 'true', 'result' => $result), 200);
             } else {
                 $this->logger->info('Not found database exception to client id', ['id' => $client_id]);
-                return $response->withJson(array('status' => 'Client Not Found'), 422);
+                return $response->withJson(array('status' => 'Client Not Found'), 200);
             }
         } catch (\Exception $ex) {
             $this->logger->warning('Read client data from Cars table. ', ['error' => $ex->getMessage()]);
@@ -125,7 +125,7 @@ $app->group('/clients', function () {
             } else {
                 $this->logger->info('Not found Exception for update Client data in Cars table',
                     ['client_id' => $client_id]);
-                return $response->withJson(array('status' => 'Client Not Found'), 422);
+                return $response->withJson(array('status' => 'Client Not Found'), 200);
             }
 
         } catch (\Exception $ex) {
@@ -151,7 +151,7 @@ $app->group('/clients', function () {
             } else {
                 $this->logger->info('Not found ecxeption for car delete from Clients table',
                     ['client_id' => $client_id]);
-                return $response->withJson(array('status' => 'Client Not Found'), 422);
+                return $response->withJson(array('status' => 'Client Not Found'), 200);
             }
 
         } catch (\Exception $ex) {
